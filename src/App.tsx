@@ -103,40 +103,44 @@ function App() {
           Get location
         </button>
         {loading && <div>Loading...</div>}
-        <h1>
-          Current weather in{' '}
-          <span className='font-bold'>
-            {!loading && weatherData.name},{' '}
-            {!loading && weatherData.sys.country}
-          </span>
-          {!loading && weatherData.weather[0].icon}:
-        </h1>
-        <p>
-          The actual temperature is:{' '}
-          <span className='font-bold'>{!loading && weatherData.main.temp}</span>{' '}
-          which feels like{' '}
-          <span className='font-bold'>
-            {!loading && weatherData.main.feels_like}
-          </span>
-        </p>
-        <p>
-          The highest temperature is:{' '}
-          <span className='font-bold'>
-            {!loading && weatherData.main.temp_max}
-          </span>
-        </p>
-        <p>
-          The lowest temperature is:{' '}
-          <span className='font-bold'>
-            {!loading && weatherData.main.temp_min}
-          </span>
-        </p>
-        <p>
-          Current conditions:{' '}
-          <span className='font-bold'>
-            {!loading && weatherData.weather[0].description}
-          </span>
-        </p>
+        {!loading ? (
+          <>
+            <h1>
+              Current weather in{' '}
+              <span className='font-bold'>
+                {weatherData.name}, {weatherData.sys.country}
+              </span>
+            </h1>
+            <p>
+              The actual temperature is:{' '}
+              <span className='font-bold'>
+                {Math.trunc(weatherData.main.temp)}
+              </span>{' '}
+              which feels like{' '}
+              <span className='font-bold'>
+                {Math.trunc(weatherData.main.feels_like)}
+              </span>
+            </p>
+            <p>
+              The highest temperature is:{' '}
+              <span className='font-bold'>
+                {Math.trunc(weatherData.main.temp_max)}
+              </span>
+            </p>
+            <p>
+              The lowest temperature is:{' '}
+              <span className='font-bold'>
+                {Math.trunc(weatherData.main.temp_min)}
+              </span>
+            </p>
+            <p>
+              Current conditions:{' '}
+              <span className='font-bold'>
+                {weatherData.weather[0].description}
+              </span>
+            </p>
+          </>
+        ) : null}
       </form>
     </div>
   );
