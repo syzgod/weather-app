@@ -83,65 +83,71 @@ function App() {
   };
 
   return (
-    <div className='flex min-h-screen flex-col'>
-      <h1 className='items-center justify-center text-2xl font-bold'>
-        My Weather App
-      </h1>
-      <form onSubmit={locationHandle}>
-        <input
-          ref={ref}
-          className='m-2 w-fit border-2 border-gray-600 p-2'
-          type='text'
-          name=''
-          id=''
-          placeholder='Enter location name'
-        />
-        <button
-          className='rounded-full border-2 border-gray-600 p-2 hover:bg-green-400'
-          type='submit'
-        >
-          Get location
-        </button>
-        {loading && <div>Loading...</div>}
-        {!loading ? (
-          <>
-            <h1>
-              Current weather in{' '}
-              <span className='font-bold'>
-                {weatherData.name}, {weatherData.sys.country}
-              </span>
-            </h1>
-            <p>
-              The actual temperature is:{' '}
-              <span className='font-bold'>
-                {Math.trunc(weatherData.main.temp)}
-              </span>{' '}
-              which feels like{' '}
-              <span className='font-bold'>
-                {Math.trunc(weatherData.main.feels_like)}
-              </span>
-            </p>
-            <p>
-              The highest temperature is:{' '}
-              <span className='font-bold'>
-                {Math.trunc(weatherData.main.temp_max)}
-              </span>
-            </p>
-            <p>
-              The lowest temperature is:{' '}
-              <span className='font-bold'>
-                {Math.trunc(weatherData.main.temp_min)}
-              </span>
-            </p>
-            <p>
-              Current conditions:{' '}
-              <span className='font-bold'>
-                {weatherData.weather[0].description}
-              </span>
-            </p>
-          </>
-        ) : null}
-      </form>
+    <div className='flex min-h-screen flex-col items-center justify-center bg-gray-800'>
+      <div className='rounded-3xl border-2 border-gray-900 bg-gray-700 p-6 text-gray-200 shadow-xl shadow-gray-900'>
+        <h1 className='text mb-4 items-center justify-center border-b-2 border-green-600 pb-4 text-center text-4xl font-bold'>
+          My Weather App
+        </h1>
+        <form onSubmit={locationHandle}>
+          <div className='flex items-center justify-center text-lg'>
+            <input
+              ref={ref}
+              className='m-2 w-fit rounded-2xl border-2 border-gray-600 bg-gray-400 p-2 text-gray-700 placeholder-gray-700 focus:outline-none focus:ring focus:ring-green-600'
+              type='text'
+              name=''
+              id=''
+              placeholder='Enter location name'
+            />
+            <button
+              className='h-12 rounded-full border-2 border-gray-600 p-2 text-center hover:bg-green-600 hover:text-gray-700 hover:shadow-inner hover:shadow-gray-700'
+              type='submit'
+            >
+              Get location
+            </button>
+          </div>
+          {loading && <div>Loading...</div>}
+          {!loading ? (
+            <>
+              <div className='mt-4 rounded-3xl border border-b-8 border-l-8 border-green-600 bg-gray-600 p-6 text-lg leading-relaxed'>
+                <h1>
+                  Current weather in{' '}
+                  <span className='font-bold'>
+                    {weatherData.name}, {weatherData.sys.country}
+                  </span>
+                </h1>
+                <p>
+                  The actual temperature is:{' '}
+                  <span className='font-bold'>
+                    {Math.trunc(weatherData.main.temp)}
+                  </span>{' '}
+                  which feels like{' '}
+                  <span className='font-bold'>
+                    {Math.trunc(weatherData.main.feels_like)}
+                  </span>
+                </p>
+                <p>
+                  The highest temperature is:{' '}
+                  <span className='font-bold'>
+                    {Math.trunc(weatherData.main.temp_max)}
+                  </span>
+                </p>
+                <p>
+                  The lowest temperature is:{' '}
+                  <span className='font-bold'>
+                    {Math.trunc(weatherData.main.temp_min)}
+                  </span>
+                </p>
+                <p>
+                  Current conditions:{' '}
+                  <span className='font-bold'>
+                    {weatherData.weather[0].description}
+                  </span>
+                </p>
+              </div>
+            </>
+          ) : null}
+        </form>
+      </div>
     </div>
   );
 }
