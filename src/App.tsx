@@ -1,66 +1,16 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-
-// interface IncomingData {
-//   coord: {
-//     lon: number;
-//     lat: number;
-//   };
-//   weather: [
-//     {
-//       id: number;
-//       main: string;
-//       description: string;
-//       icon: string;
-//     }
-//   ];
-//   base: string;
-//   main: {
-//     temp: number;
-//     feels_like: number;
-//     temp_min: number;
-//     temp_max: number;
-//     pressure: number;
-//     humidity: number;
-//     sea_level: number;
-//     grnd_level: number;
-//   };
-//   visibility: number;
-//   wind: {
-//     speed: number;
-//     deg: number;
-//     gust: number;
-//   };
-//   clouds: {
-//     all: number;
-//   };
-//   dt: number;
-//   sys: {
-//     type: number;
-//     id: number;
-//     country: string;
-//     sunrise: number;
-//     sunset: number;
-//   };
-//   timezone: number;
-//   id: number;
-//   name: string;
-//   cod: number;
-// }
+import { useGeolocated } from 'react-geolocated';
 
 function App() {
   const ref = useRef<HTMLInputElement>(null);
   const [weatherData, setWeatherData] = useState<any>([]);
   const [location, setLocation] = useState('dorfen');
   const [loading, setLoading] = useState(true);
+  const [lat, setLat] = useState<number>();
+  const [long, setLong] = useState<number>();
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}&units=metric`;
-
-  const unsplashUrl = `https://api.unsplash.com/photos/random?client_id=_PcVFcZsvxacQ7I_ydTAZmYD8qs6g5NheuwuiBnQ7bg&search?query=sunny`;
-
-  // useEffect(() => {
-  //   axios.get(url).then((response) => setWeatherData(response.data));
-  // }, [url]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,12 +32,85 @@ function App() {
     setLocation(ref.current!.value);
   };
 
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      userDecisionTimeout: 5000,
+    });
+
+  useEffect(() => {
+    if (isGeolocationAvailable && isGeolocationEnabled && coords) {
+      setLat(coords.latitude);
+      setLong(coords.longitude);
+      console.log(lat, long);
+    }
+  });
+
+  const getPlaceHandle = (lat: number, long: number): any => {
+    const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=5&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`;
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const { data: response } = await axios.get(url);
+        setLocation(response.name);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
+  };
+
   return (
     <div className='flex min-h-screen flex-col items-center justify-center bg-gray-800'>
       <div className='rounded-3xl border-2 border-gray-900 bg-gray-700 p-6 text-gray-200 shadow-xl shadow-gray-900'>
         <h1 className='text mb-4 items-center justify-center border-b-2 border-green-600 pb-4 text-center text-4xl font-bold'>
           My Weather App
         </h1>
+        {!isGeolocationAvailable ? (
+          <div>Your browser does not support Geolocation</div>
+        ) : !isGeolocationEnabled ? (
+          <div>Geolocation is not enabled</div>
+        ) : coords && !loading ? (
+          <>
+            <table>
+              <tbody>
+                <tr>
+                  <td>latitude</td>
+                  <td>{coords.latitude}</td>
+                </tr>
+                <tr>
+                  <td>longitude</td>
+                  <td>{coords.longitude}</td>
+                </tr>
+
+                {/*<tr>
+          <td>altitude</td>
+          <td>{coords.altitude}</td>
+        </tr>
+        <tr>
+          <td>heading</td>
+          <td>{coords.heading}</td>
+        </tr>
+        <tr>
+          <td>speed</td>
+          <td>{coords.speed}</td>
+  </tr>*/}
+              </tbody>
+            </table>
+            <button
+              onClick={() => getPlaceHandle(coords.latitude, coords.longitude)}
+              className='ml-3 rounded-3xl border p-2 hover:bg-gray-300 hover:text-gray-700'
+            >
+              Get my location
+            </button>
+          </>
+        ) : (
+          <div>Getting the location data&hellip; </div>
+        )}
         <form onSubmit={locationHandle}>
           <div className='flex items-center justify-center text-lg'>
             <input
