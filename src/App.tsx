@@ -56,7 +56,7 @@ function App() {
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}&units=metric`;
 
-  const unsplashUrl = `https://api.unsplash.com/photos/?client_id=_PcVFcZsvxacQ7I_ydTAZmYD8qs6g5NheuwuiBnQ7bg&search?query=sunny`;
+  const unsplashUrl = `https://api.unsplash.com/photos/random?client_id=_PcVFcZsvxacQ7I_ydTAZmYD8qs6g5NheuwuiBnQ7bg&search?query=sunny`;
 
   // useEffect(() => {
   //   axios.get(url).then((response) => setWeatherData(response.data));
