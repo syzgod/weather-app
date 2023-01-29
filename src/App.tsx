@@ -150,11 +150,7 @@ function App() {
               >
                 Get location
               </button>
-              <Checkbox
-                options={options}
-                wind={weatherData.wind.speed}
-                windDirection={weatherData.wind.deg}
-              />
+              <Checkbox options={options} />
             </div>
           </div>
           {loading && <div>Loading...</div>}
