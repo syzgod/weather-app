@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-const Checkbox = ({ options }: any, ...args: any) => {
-  const { wind, windDirection } = args;
+const Checkbox = ({ options }: any) => {
   const [state, setState] = useState(options);
 
   function handleChange(event: any) {
