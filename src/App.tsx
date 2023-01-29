@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGeolocated } from 'react-geolocated';
 import cloud from './assets/icons/2995000_cloud_weather_cloudy_rain_sun_icon.png';
 import sun from './assets/icons/1530392_weather_sun_sunny_temperature_icon.png';
+import Checkbox from './components/Checkbox';
 
 function App() {
   const ref = useRef<HTMLInputElement>(null);
@@ -11,7 +12,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [lat, setLat] = useState<number>();
   const [long, setLong] = useState<number>();
-  const [checked, setChecked] = React.useState(false);
 
   const date = new Date();
 
@@ -42,9 +42,11 @@ function App() {
     setLocation(ref.current!.value);
   };
 
-  const handleChange = () => {
-    setChecked(!checked);
-  };
+  const options = [
+    { label: 'Wind', value: 'option1', checked: false },
+    { label: 'Wind direction', value: 'option2', checked: false },
+    { label: 'Option 3', value: 'option3', checked: false },
+  ];
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
@@ -60,7 +62,7 @@ function App() {
       setLong(coords.longitude);
       console.log(lat, long);
     }
-  });
+  }, [coords, lat, long, isGeolocationAvailable, isGeolocationEnabled]);
 
   const getPlaceHandle = (lat: number, long: number): any => {
     const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=5&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`;
@@ -148,28 +150,11 @@ function App() {
               >
                 Get location
               </button>
-            </div>
-            <div>
-              <input
-                checked={checked}
-                onChange={handleChange}
-                type='checkbox'
-                name=''
-                id='wind'
+              <Checkbox
+                options={options}
+                wind={weatherData.wind.speed}
+                windDirection={weatherData.wind.deg}
               />
-              <label className='mx-3' htmlFor='wind'>
-                Wind
-              </label>
-              <input
-                checked={checked}
-                onChange={handleChange}
-                type='checkbox'
-                name=''
-                id='wind_direction'
-              />
-              <label className='ml-2' htmlFor='wind_direction'>
-                Wind direction
-              </label>
             </div>
           </div>
           {loading && <div>Loading...</div>}
