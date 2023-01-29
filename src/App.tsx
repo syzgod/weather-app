@@ -43,8 +43,8 @@ function App() {
   };
 
   const options = [
-    { label: 'Wind', value: 'option1', checked: false },
-    { label: 'Wind direction', value: 'option2', checked: false },
+    { label: 'Wind', value: 'wind', checked: false },
+    { label: 'Wind direction', value: 'windDirection', checked: false },
     { label: 'Option 3', value: 'option3', checked: false },
   ];
 
