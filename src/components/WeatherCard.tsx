@@ -11,12 +11,13 @@ const WeatherCard = ({ weatherData }: any) => {
   let currentDate = `${day}-${month}-${year}`;
 
   return (
+    weatherData.weather?.length ?
     <div className='mt-4 flex w-2/3 flex-col items-center justify-center rounded-3xl border border-b-8 border-r-8 border-slate-800 bg-slate-400 bg-opacity-20 p-6 text-lg leading-relaxed'>
-      {weatherData.weather[0].description.includes('cloud') ? (
+      {weatherData.weather[0]?.description.includes('cloud') ? (
         <img className='h-16 w-16' src={cloud} alt='' />
       ) : null}
-      {weatherData.weather[0].description.includes('sun') ||
-      weatherData.weather[0].description.includes('clear') ? (
+      {weatherData.weather[0]?.description.includes('sun') ||
+      weatherData.weather[0]?.description.includes('clear') ? (
         <img className='h-16 w-16' src={sun} alt='' />
       ) : null}
       <h1 className='font-bold'>
@@ -46,7 +47,7 @@ const WeatherCard = ({ weatherData }: any) => {
         </span>
       </p>
       <div className='font-bold'>{weatherData.weather[0].description}</div>
-    </div>
+    </div> : null
   );
 };
 

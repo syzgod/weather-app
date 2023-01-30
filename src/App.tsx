@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, FormEvent } from 'react';
 import Checkbox from './components/Checkbox';
 import WeatherCard from './components/WeatherCard';
 import Geolocation from './components/Geolocation';
 import SearchForm from './components/SearchForm';
+import { getWeatherData } from './services/weatherService';
 
 function App() {
   const ref = useRef<HTMLInputElement>(null);
@@ -11,25 +12,17 @@ function App() {
   const [location, setLocation] = useState('dorfen');
   const [loading, setLoading] = useState(true);
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}&units=metric`;
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const { data: response } = await axios.get(url);
-        setWeatherData(response);
-      } catch (error: any) {
-        console.error(error.message);
-      }
+    setLoading(true);
+    getWeatherData(location).then((response) => {
+      setWeatherData(response.data);
+    }).finally(() => {
       setLoading(false);
-    };
+    })
+  }, [location]);
 
-    fetchData();
-  }, [url]);
-
-  const locationHandle = (e: any): any => {
-    e.preventDefault();
+  const locationHandle = (): void => {
     setLocation(ref.current!.value);
   };
 
@@ -47,10 +40,7 @@ function App() {
         </h1>
         {<Geolocation />}
         <hr />
-        <form
-          onSubmit={locationHandle}
-          className='mt-4 flex flex-col items-center justify-center'
-        >
+
           <div className='flex flex-col items-center justify-center text-lg'>
             <div>
               <input
@@ -63,16 +53,16 @@ function App() {
               />
               <button
                 className='h-12 rounded-full border-2 border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center hover:bg-opacity-50'
-                type='submit'
+                onClick={locationHandle}
               >
                 Get location
               </button>
             </div>
           </div>
-        </form>
+
         <Checkbox options={options} />
         {loading && <div>Loading...</div>}
-        {!loading ? <WeatherCard weatherData={weatherData} /> : null}
+        <WeatherCard weatherData={weatherData} />
       </div>
     </div>
   );

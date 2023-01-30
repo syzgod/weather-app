@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useGeolocated } from 'react-geolocated';
+import { getPlaceHandle } from '../services/weatherService';
 
 const Geolocation = () => {
   const [lat, setLat] = useState<number>();
   const [long, setLong] = useState<number>();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState();
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
@@ -24,20 +25,13 @@ const Geolocation = () => {
     }
   }, [coords, lat, long, isGeolocationAvailable, isGeolocationEnabled]);
 
-  const getPlaceHandle = (lat: number, long: number): void => {
-    const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=5&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`;
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const { data: response } = await axios.get(url);
-        setLocation(response.name);
-      } catch (error: any) {
-        console.error(error.message);
-      }
+  const handleGetPlaceHandleClick = (lat: number, long: number): void => {
+    setLoading(true);
+    getPlaceHandle(lat, long).then((response: any) => {
+      setLocation(response.name);
+    }).finally(() => {
       setLoading(false);
-    };
-
-    fetchData();
+    })
   };
 
   return (
@@ -65,7 +59,7 @@ const Geolocation = () => {
             </table>
           </div>
           <button
-            onClick={() => getPlaceHandle(coords.latitude, coords.longitude)}
+            onClick={() => handleGetPlaceHandleClick(coords.latitude, coords.longitude)}
             className='h-12 rounded-full border-2 border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center hover:bg-opacity-50'
           >
             Get my location
