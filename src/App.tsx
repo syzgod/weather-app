@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Checkbox from './components/Checkbox';
 import WeatherCard from './components/WeatherCard';
 import Geolocation from './components/Geolocation';
+import SearchForm from './components/SearchForm';
 
 function App() {
   const ref = useRef<HTMLInputElement>(null);
@@ -66,12 +67,12 @@ function App() {
               >
                 Get location
               </button>
-              <Checkbox options={options} />
             </div>
           </div>
-          {loading && <div>Loading...</div>}
-          {!loading ? <WeatherCard weatherData={weatherData} /> : null}
         </form>
+        <Checkbox options={options} />
+        {loading && <div>Loading...</div>}
+        {!loading ? <WeatherCard weatherData={weatherData} /> : null}
       </div>
     </div>
   );
