@@ -1,22 +1,22 @@
 import { useState } from 'react';
 
 const Checkbox = ({ options }: any) => {
-  const [state, setState] = useState(options);
+  const [checkboxes, setCheckboxes] = useState(options);
 
   function handleChange(event: any) {
     const { value } = event.target;
-    const newOptions = state.map((option: any) => {
+    const newOptions = checkboxes.map((option: any) => {
       if (option.value === value) {
         return { ...option, checked: !option.checked };
       }
       return option;
     });
-    setState(newOptions);
+    setCheckboxes(newOptions);
   }
 
   return (
     <div>
-      {state.map((option: any) => (
+      {checkboxes.map((option: any) => (
         <label key={option.value} className='mx-3'>
           <input
             type='checkbox'

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useGeolocated } from 'react-geolocated';
 import { getPlaceHandle } from '../services/weatherService';
@@ -27,11 +26,14 @@ const Geolocation = () => {
 
   const handleGetPlaceHandleClick = (lat: number, long: number): void => {
     setLoading(true);
-    getPlaceHandle(lat, long).then((response: any) => {
-      setLocation(response.name);
-    }).finally(() => {
-      setLoading(false);
-    })
+    getPlaceHandle(lat, long)
+      .then((response: any) => {
+        setLocation(response.data[0].name);
+        console.log(response.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -59,7 +61,9 @@ const Geolocation = () => {
             </table>
           </div>
           <button
-            onClick={() => handleGetPlaceHandleClick(coords.latitude, coords.longitude)}
+            onClick={() =>
+              handleGetPlaceHandleClick(coords.latitude, coords.longitude)
+            }
             className='h-12 rounded-full border-2 border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center hover:bg-opacity-50'
           >
             Get my location
