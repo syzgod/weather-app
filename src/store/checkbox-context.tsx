@@ -1,5 +1,40 @@
-import { createContext } from 'react';
+import React, { useReducer } from 'react';
 
-const CheckboxContext = createContext<any>([]);
+const CheckboxContext = React.createContext({
+  checkboxes: [],
+  handleChange: (value: any) => {},
+});
 
-export default CheckboxContext;
+const checkboxReducer = (state: any, action: any) => {
+  switch (action.type) {
+    case 'TOGGLE_CHECKBOX':
+      return {
+        checkboxes: state.checkboxes.map((option: any) =>
+          option.value === action.value
+            ? { ...option, checked: !option.checked }
+            : option
+        ),
+      };
+    default:
+      return state;
+  }
+};
+
+interface CheckboxProviderProps {
+  options: any[];
+  children: React.ReactNode;
+}
+
+const CheckboxProvider = ({ options, children }: CheckboxProviderProps) => {
+  const [state, dispatch] = useReducer(checkboxReducer, {
+    checkboxes: options,
+  });
+
+  return (
+    <CheckboxContext.Provider value={state}>
+      {children}
+    </CheckboxContext.Provider>
+  );
+};
+
+export { CheckboxContext, CheckboxProvider };

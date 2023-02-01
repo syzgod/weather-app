@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import cloud from '../assets/icons/2995000_cloud_weather_cloudy_rain_sun_icon.png';
 import sun from '../assets/icons/1530392_weather_sun_sunny_temperature_icon.png';
 import ApiContext from '../store/api-context';
-import CheckboxContext from '../store/checkbox-context';
+import { CheckboxContext } from '../store/checkbox-context';
 
 const WeatherCard = ({ weatherData }: any) => {
   const date = new Date();
@@ -47,7 +47,7 @@ const WeatherCard = ({ weatherData }: any) => {
         </span>
       </p>
       <div className='font-bold'>{apiCtx.weather[0].description}</div>
-      {checkboxCtx[0].checked && <div>{apiCtx.wind.speed} km/h</div>}
+      <div>{apiCtx.wind.speed} km/h</div>
     </div>
   ) : null;
 };
