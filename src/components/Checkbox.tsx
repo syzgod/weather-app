@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { CheckboxContext } from '../store/checkbox-context';
 
-interface CheckboxProps {
-  options: any[];
-}
+const Checkbox = ({ options }: any) => {
+  const [state, dispatch] = useContext(CheckboxContext);
 
-const Checkbox = ({ options }: CheckboxProps) => {
   return (
     <div>
-      {options.map((option: any) => (
-        <label key={option.value} className='mx-3'>
+      {state.checkboxes.map((checkbox) => (
+        <label key={checkbox.value} className='mx-3'>
           <input
             type='checkbox'
-            value={option.value}
-            checked={option.checked}
+            value={checkbox.value}
+            checked={checkbox.checked}
+            onChange={() =>
+              dispatch({ type: 'TOGGLE_CHECKBOX', payload: checkbox.value })
+            }
             className='mr-1'
           />
-          {option.label}
+          {checkbox.label}
         </label>
       ))}
     </div>
