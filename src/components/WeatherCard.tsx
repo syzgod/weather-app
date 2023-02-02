@@ -47,6 +47,7 @@ const WeatherCard = ({ weatherData }: any) => {
         </span>
       </p>
       <div className='font-bold'>{apiCtx.weather[0].description}</div>
+      {/* Map through checkboxes (state.checkboxes.map - import first) then display the corresponding value if it's checked. Eg. wind, wind speed etc */}
       <div>{apiCtx.wind.speed} km/h</div>
     </div>
   ) : null;
