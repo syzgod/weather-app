@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useReducer } from 'react';
 import Checkbox from './components/Checkbox';
 import WeatherCard from './components/WeatherCard';
 import Geolocation from './components/Geolocation';
-import SearchForm from './components/SearchForm';
+// import SearchForm from './components/SearchForm';
 import { getWeatherData } from './services/weatherService';
 import ApiContext from './store/api-context';
 import { checkboxReducer } from './reducers/checkbox-reducer';
@@ -33,7 +33,7 @@ function App() {
     checkboxes: [
       { label: 'Wind', value: 'wind', checked: false },
       { label: 'Wind direction', value: 'windDirection', checked: false },
-      { label: 'Option 3', value: 'option3', checked: false },
+      { label: 'Wind gust', value: 'windGust', checked: false },
     ],
   });
 
