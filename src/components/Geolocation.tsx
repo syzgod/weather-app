@@ -43,8 +43,8 @@ const Geolocation = () => {
       ) : !isGeolocationEnabled ? (
         <div>Geolocation is not enabled</div>
       ) : coords && !loading ? (
-        <div className='mb-4 flex flex-col items-center justify-center'>
-          <div className='mb-3 flex w-fit flex-col items-center justify-center rounded-xl border-2 border-gray-300 bg-slate-400 bg-opacity-20 p-3'>
+        <div className='mb-4 flex flex-col items-center justify-center '>
+          <div className='mb-3 flex w-fit flex-col items-center justify-center rounded-xl border border-gray-300 bg-slate-400 bg-opacity-20 p-3 shadow-md shadow-gray-900'>
             <div>Current location name: {location}</div>
             <div>Current location coords: </div>
             <table>
@@ -64,7 +64,7 @@ const Geolocation = () => {
             onClick={() =>
               handleGetPlaceHandleClick(coords.latitude, coords.longitude)
             }
-            className='h-12 rounded-full border-2 border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center hover:bg-opacity-50'
+            className='h-12 rounded-full border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center shadow-md shadow-gray-900 hover:bg-opacity-50'
           >
             Get my location
           </button>
