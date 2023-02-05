@@ -7,6 +7,8 @@ import { getWeatherData } from './services/weatherService';
 import ApiContext from './store/api-context';
 import { checkboxReducer } from './reducers/checkbox-reducer';
 import { CheckboxContext } from './store/checkbox-context';
+import background from './assets/pictures/noaa-cthDc0hUM0o-unsplash.jpg';
+import { url } from 'inspector';
 
 function App() {
   const ref = useRef<HTMLInputElement>(null);
@@ -40,12 +42,19 @@ function App() {
 
   return (
     <ApiContext.Provider value={weatherData}>
-      <div className='flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-sky-800 to-slate-900'>
-        <div className='flex flex-col items-center justify-center rounded-3xl border-2 border-gray-900 bg-transparent p-6 text-gray-200 shadow-xl shadow-gray-900 backdrop-blur-md'>
+      <div
+        style={{
+          backgroundImage: `url(${background})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+        }}
+        className='flex min-h-screen flex-col items-center justify-center'
+      >
+        <div className='flex flex-col items-center justify-center rounded-3xl border bg-transparent p-6 text-gray-200 shadow-md shadow-gray-800 backdrop-blur-md'>
           <h1 className='text mb-4 items-center justify-center border-b-2 border-gray-200 pb-4 text-center text-4xl font-bold'>
             My Weather App
           </h1>
-          {<Geolocation />}
+          {/* {<Geolocation />} */}
           <hr />
 
           <div className='flex flex-col items-center justify-center text-lg'>
@@ -53,7 +62,7 @@ function App() {
               <form action='' onSubmit={locationHandle}>
                 <input
                   ref={ref}
-                  className='m-2 w-fit rounded-2xl border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-gray-200 placeholder-gray-400 shadow-md shadow-gray-900 focus:outline-none focus:ring focus:ring-gray-300'
+                  className='m-2 w-fit rounded-2xl border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-gray-200 placeholder-gray-300 shadow-md shadow-gray-700 focus:outline-none focus:ring focus:ring-gray-300'
                   type='text'
                   name=''
                   id=''
@@ -61,7 +70,7 @@ function App() {
                 />
                 <button
                   type='submit'
-                  className='h-12 rounded-full border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center shadow-md shadow-gray-900 hover:bg-opacity-50'
+                  className='h-12 rounded-full border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center shadow-md shadow-gray-700 hover:bg-opacity-50'
                 >
                   Get location
                 </button>

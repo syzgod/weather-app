@@ -15,7 +15,7 @@ const Checkbox = ({ options }: any) => {
             onChange={() =>
               dispatch({ type: 'TOGGLE_CHECKBOX', payload: checkbox.value })
             }
-            className='mr-1'
+            className='mr-1 h-4 w-4 items-center rounded accent-slate-600 focus:ring-2 focus:ring-gray-600'
           />
           {checkbox.label}
         </label>
