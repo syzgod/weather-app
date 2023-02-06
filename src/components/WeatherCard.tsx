@@ -12,6 +12,7 @@ import { WiHumidity } from 'react-icons/wi';
 // TODO add extra functionality for UV, sunset, sunrise, visibility, humidity, weather alert, air quality
 // TODO add longer forecast
 // TODO add geolocation data to weather card to immediately show user's location at load
+// TODO calculateTime function to be flexible to be able to return needed time
 // BUG fix checkboxes to not rerender too many components
 
 const WeatherCard = ({ weatherData }: any) => {
@@ -19,17 +20,13 @@ const WeatherCard = ({ weatherData }: any) => {
   const apiCtx = useContext(ApiContext);
   const [state, dispatch] = useContext(CheckboxContext);
 
-  const calculateLocalTime = () => {
-    const unixTimestamp = apiCtx.dt;
+  const calculateTime = (timeUnix) => {
+    const time = new Date(timeUnix * 1000);
     const timezoneOffset = apiCtx.timezone;
+    const offset = time.getTimezoneOffset() * 60;
+    const date = new Date((unixTimestamp + timezoneOffset + offset) * 1000);
 
-    const date = new Date(unixTimestamp * 1000);
-    const offset = date.getTimezoneOffset() * 60;
-    const localTime = new Date(
-      (unixTimestamp + timezoneOffset + offset) * 1000
-    );
-
-    const timeString = localTime.toLocaleTimeString([], {
+    const timeString = date.toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
@@ -39,29 +36,49 @@ const WeatherCard = ({ weatherData }: any) => {
     return `${hour}:${minute}`;
   };
 
-  const calculateSunrise = () => {
-    const sunrise = new Date(apiCtx.sys.sunrise * 1000);
-
-    const timeString = sunrise.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-    const [hour, minute] = timeString.split(':');
-    return `${hour}:${minute}`;
-  };
-  const calculateSunset = () => {
-    const sunset = new Date(apiCtx.sys.sunset * 1000);
-    const timeString = sunset.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-    const [hour, minute] = timeString.split(':');
-    return `${hour}:${minute}`;
-  };
+  //   const calculateLocalTime = () => {
+  //     const unixTimestamp = apiCtx.dt;
+  //     const timezoneOffset = apiCtx.timezone;
+  //
+  //     const date = new Date(unixTimestamp * 1000);
+  //     const offset = date.getTimezoneOffset() * 60;
+  //     const localTime = new Date(
+  //       (unixTimestamp + timezoneOffset + offset) * 1000
+  //     );
+  //
+  //     const timeString = localTime.toLocaleTimeString([], {
+  //       hour: '2-digit',
+  //       minute: '2-digit',
+  //       second: '2-digit',
+  //       hour12: false,
+  //     });
+  //     const [hour, minute] = timeString.split(':');
+  //     return `${hour}:${minute}`;
+  //   };
+  //
+  //   const calculateSunrise = () => {
+  //     const sunrise = new Date(apiCtx.sys.sunrise * 1000);
+  //
+  //     const timeString = sunrise.toLocaleTimeString([], {
+  //       hour: '2-digit',
+  //       minute: '2-digit',
+  //       second: '2-digit',
+  //       hour12: false,
+  //     });
+  //     const [hour, minute] = timeString.split(':');
+  //     return `${hour}:${minute}`;
+  //   };
+  //   const calculateSunset = () => {
+  //     const sunset = new Date(apiCtx.sys.sunset * 1000);
+  //     const timeString = sunset.toLocaleTimeString([], {
+  //       hour: '2-digit',
+  //       minute: '2-digit',
+  //       second: '2-digit',
+  //       hour12: false,
+  //     });
+  //     const [hour, minute] = timeString.split(':');
+  //     return `${hour}:${minute}`;
+  //   };
 
   let day = date.getDate();
   let month = date.getMonth() + 1;
@@ -81,7 +98,7 @@ const WeatherCard = ({ weatherData }: any) => {
           <div className='inline text-sm font-normal'>
             at{' '}
             <span className='text-lg font-bold tracking-widest'>
-              {calculateLocalTime()}
+              {calculateTime(apiCtx.dt)}
             </span>
           </div>
         </h1>
@@ -143,9 +160,9 @@ const WeatherCard = ({ weatherData }: any) => {
       </div>
       <div className='back mt-4 flex h-96 w-72 flex-col items-center justify-center rounded-3xl border border-gray-300 bg-slate-400 bg-opacity-20 p-6 text-lg leading-relaxed shadow-md shadow-gray-700'>
         <FiSunrise size='25px' />
-        <div>Sunrise: {calculateSunrise()}</div>
+        <div>Sunrise: {calculateTime(apiCtx.sys.sunrise)}</div>
         <FiSunset size='25px' />
-        <div>Sunset: {calculateSunset()}</div>
+        <div>Sunset: {calculateTime(apiCtx.sys.sunset)}</div>
         <BsCloudsFill size='25px' />
         <div>Clouds cover: {apiCtx.clouds.all}%</div>
         <WiHumidity size='25px' />
