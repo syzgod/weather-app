@@ -10,10 +10,10 @@ import { FiSunrise, FiSunset } from 'react-icons/fi';
 import { WiHumidity } from 'react-icons/wi';
 
 // TODO add extra functionality for UV, sunset, sunrise, visibility, humidity, weather alert, air quality
-// TODO add longer forecast
 // TODO add geolocation data to weather card to immediately show user's location at load
 // TODO calculateTime function to be flexible to be able to return needed time
 // TODO make 'Today' a variable and make 'Tomorrow' and dates following
+// TODO Redesign to add longer forecast
 // BUG fix checkboxes to not rerender too many components
 
 const WeatherCard = ({ weatherData }: any) => {
