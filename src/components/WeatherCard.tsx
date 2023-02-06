@@ -21,11 +21,11 @@ const WeatherCard = ({ weatherData }: any) => {
   const apiCtx = useContext(ApiContext);
   const [state, dispatch] = useContext(CheckboxContext);
 
-  const calculateTime = (timeUnix) => {
+  const calculateTime = (timeUnix: number) => {
     const time = new Date(timeUnix * 1000);
     const timezoneOffset = apiCtx.timezone;
     const offset = time.getTimezoneOffset() * 60;
-    const date = new Date((unixTimestamp + timezoneOffset + offset) * 1000);
+    const date = new Date((timeUnix + timezoneOffset + offset) * 1000);
 
     const timeString = date.toLocaleTimeString([], {
       hour: '2-digit',
@@ -90,13 +90,13 @@ const WeatherCard = ({ weatherData }: any) => {
 
   return apiCtx.weather?.length ? (
     <div className='flex h-96 w-72 transform items-center justify-center tracking-wider'>
-      <div className='front mt-4 flex h-96 w-72 flex-col items-center justify-center rounded-3xl border border-gray-300 bg-slate-400 bg-opacity-40 p-2 text-lg leading-relaxed shadow-md shadow-gray-700'>
+      <div className='front min-w-72 mt-4 flex h-96 flex-col items-center justify-center rounded-3xl border border-gray-300 bg-slate-400 bg-opacity-40 p-2 text-lg leading-relaxed shadow-md shadow-gray-700'>
         <BsArrowLeftRight className='absolute top-3 left-5' />
         <span className='text-sm'>Weather Today in</span>
-        <h1 className='font-bold'>
-          <MdLocationPin size='25px' />
+        <h1 className='flex flex-wrap items-center justify-center font-bold'>
+          <MdLocationPin size='25px' className='inline' />
           {apiCtx.name}, {apiCtx.sys.country}{' '}
-          <div className='inline text-sm font-normal'>
+          <div className='ml-2 inline text-sm font-normal'>
             at{' '}
             <span className='text-lg font-bold tracking-widest'>
               {calculateTime(apiCtx.dt)}
@@ -159,7 +159,7 @@ const WeatherCard = ({ weatherData }: any) => {
           ) : null
         )}
       </div>
-      <div className='back mt-4 flex h-96 w-72 flex-col items-center justify-center rounded-3xl border border-gray-300 bg-slate-400 bg-opacity-20 p-6 text-lg leading-relaxed shadow-md shadow-gray-700'>
+      <div className='back min-w-72 mt-4 flex h-96 flex-col items-center justify-center rounded-3xl border border-gray-300 bg-slate-400 bg-opacity-20 p-6 text-lg leading-relaxed shadow-md shadow-gray-700'>
         <FiSunrise size='25px' />
         <div>Sunrise: {calculateTime(apiCtx.sys.sunrise)}</div>
         <FiSunset size='25px' />

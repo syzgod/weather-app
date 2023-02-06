@@ -8,7 +8,6 @@ import ApiContext from './store/api-context';
 import { checkboxReducer } from './reducers/checkbox-reducer';
 import { CheckboxContext } from './store/checkbox-context';
 import background from './assets/pictures/noaa-cthDc0hUM0o-unsplash.jpg';
-import { url } from 'inspector';
 
 function App() {
   const ref = useRef<HTMLInputElement>(null);
