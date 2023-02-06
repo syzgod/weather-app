@@ -7,11 +7,12 @@ export const getPlaceHandle = (lat: number, long: number): Promise<any> => {
   return axios.get(url);
 };
 
-export const getWeatherData = (location: string) => {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+export const getWeatherData = (location: string): Promise<any> => {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&limit=4&appid=${apiKey}&units=metric`;
   return axios.get(url);
 };
 
-export const getForecastData = (lat: number, long: number) => {
+export const getForecastData = (lat: number, long: number): Promise<any> => {
   const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
+  return axios.get(url);
 };

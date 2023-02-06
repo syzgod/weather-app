@@ -10,11 +10,9 @@ import { FiSunrise, FiSunset } from 'react-icons/fi';
 import { WiHumidity } from 'react-icons/wi';
 
 // TODO add extra functionality for UV, sunset, sunrise, visibility, humidity, weather alert, air quality
-// TODO add geolocation data to weather card to immediately show user's location at load
-// TODO calculateTime function to be flexible to be able to return needed time
 // TODO make 'Today' a variable and make 'Tomorrow' and dates following
-// TODO Redesign to add longer forecast
-// BUG fix checkboxes to not rerender too many components
+// TODO Redesign to add longer forecast (flip card for Today and the followind days grouped)
+// BUG fix checkboxes to not rerender too many components or completely eliminate checkboxes
 
 const WeatherCard = ({ weatherData }: any) => {
   // const date = new Date();
@@ -36,50 +34,6 @@ const WeatherCard = ({ weatherData }: any) => {
     const [hour, minute] = timeString.split(':');
     return `${hour}:${minute}`;
   };
-
-  //   const calculateLocalTime = () => {
-  //     const unixTimestamp = apiCtx.dt;
-  //     const timezoneOffset = apiCtx.timezone;
-  //
-  //     const date = new Date(unixTimestamp * 1000);
-  //     const offset = date.getTimezoneOffset() * 60;
-  //     const localTime = new Date(
-  //       (unixTimestamp + timezoneOffset + offset) * 1000
-  //     );
-  //
-  //     const timeString = localTime.toLocaleTimeString([], {
-  //       hour: '2-digit',
-  //       minute: '2-digit',
-  //       second: '2-digit',
-  //       hour12: false,
-  //     });
-  //     const [hour, minute] = timeString.split(':');
-  //     return `${hour}:${minute}`;
-  //   };
-  //
-  //   const calculateSunrise = () => {
-  //     const sunrise = new Date(apiCtx.sys.sunrise * 1000);
-  //
-  //     const timeString = sunrise.toLocaleTimeString([], {
-  //       hour: '2-digit',
-  //       minute: '2-digit',
-  //       second: '2-digit',
-  //       hour12: false,
-  //     });
-  //     const [hour, minute] = timeString.split(':');
-  //     return `${hour}:${minute}`;
-  //   };
-  //   const calculateSunset = () => {
-  //     const sunset = new Date(apiCtx.sys.sunset * 1000);
-  //     const timeString = sunset.toLocaleTimeString([], {
-  //       hour: '2-digit',
-  //       minute: '2-digit',
-  //       second: '2-digit',
-  //       hour12: false,
-  //     });
-  //     const [hour, minute] = timeString.split(':');
-  //     return `${hour}:${minute}`;
-  //   };
 
   // let day = date.getDate();
   // let month = date.getMonth() + 1;
@@ -127,11 +81,10 @@ const WeatherCard = ({ weatherData }: any) => {
           <img src={`${iconURL}${apiCtx.weather[0].icon}.png`} alt='' />
           <div className='font-bold'>{apiCtx.weather[0].description}</div>
         </div>
-        {/* Map through checkboxes (state.checkboxes.map - import first) then display the corresponding value if it's checked. Eg. wind, wind speed etc */}
         <div className='flex flex-row'>
           {state.checkboxes.map((checkbox) =>
             checkbox.value === 'windDirection' && checkbox.checked ? (
-              <div className='flex'>
+              <div key={checkbox.value} className='flex'>
                 <FaLocationArrow
                   className='mt-1.5 h-4 w-4 origin-center '
                   style={{ transform: `rotate(${apiCtx.wind.deg + 120}deg)` }}

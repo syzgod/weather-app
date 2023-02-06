@@ -1,4 +1,4 @@
-import { createContext, Dispatch, Reducer } from 'react';
+import { createContext, Dispatch } from 'react';
 
 export type CheckboxState = {
   checkboxes: Array<{
