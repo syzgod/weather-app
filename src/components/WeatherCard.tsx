@@ -13,10 +13,11 @@ import { WiHumidity } from 'react-icons/wi';
 // TODO add longer forecast
 // TODO add geolocation data to weather card to immediately show user's location at load
 // TODO calculateTime function to be flexible to be able to return needed time
+// TODO make 'Today' a variable and make 'Tomorrow' and dates following
 // BUG fix checkboxes to not rerender too many components
 
 const WeatherCard = ({ weatherData }: any) => {
-  const date = new Date();
+  // const date = new Date();
   const apiCtx = useContext(ApiContext);
   const [state, dispatch] = useContext(CheckboxContext);
 
@@ -80,10 +81,10 @@ const WeatherCard = ({ weatherData }: any) => {
   //     return `${hour}:${minute}`;
   //   };
 
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  let year = date.getFullYear();
-  let currentDate = `${day}-${month}-${year}`;
+  // let day = date.getDate();
+  // let month = date.getMonth() + 1;
+  // let year = date.getFullYear();
+  // let currentDate = `${day}-${month}-${year}`;
 
   const iconURL = 'http://openweathermap.org/img/wn/';
 
