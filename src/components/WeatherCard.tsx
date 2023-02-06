@@ -3,14 +3,16 @@ import ApiContext from '../store/api-context';
 import { CheckboxContext } from '../store/checkbox-context';
 import { SiWindicss } from 'react-icons/si';
 import { FaLocationArrow } from 'react-icons/fa';
-import { BsArrowLeftRight } from 'react-icons/bs';
+import { BsArrowLeftRight, BsCloudsFill } from 'react-icons/bs';
 import getDirection from '../helpers/windDirection';
+import { MdLocationPin } from 'react-icons/md';
+import { FiSunrise, FiSunset } from 'react-icons/fi';
+import { WiHumidity } from 'react-icons/wi';
 
-// TODO display local time on the weather card and
-// TODO show icons corresponding to weather and time / convert time to daytime and nighttime
 // TODO add extra functionality for UV, sunset, sunrise, visibility, humidity, weather alert, air quality
+// TODO add longer forecast
+// TODO add geolocation data to weather card to immediately show user's location at load
 // BUG fix checkboxes to not rerender too many components
-// BUG save extra variables using async/await
 
 const WeatherCard = ({ weatherData }: any) => {
   const date = new Date();
@@ -74,6 +76,7 @@ const WeatherCard = ({ weatherData }: any) => {
         <BsArrowLeftRight className='absolute top-3 left-5' />
         <span className='text-sm'>Weather Today in</span>
         <h1 className='font-bold'>
+          <MdLocationPin size='25px' />
           {apiCtx.name}, {apiCtx.sys.country}{' '}
           <div className='inline text-sm font-normal'>
             at{' '}
@@ -139,10 +142,13 @@ const WeatherCard = ({ weatherData }: any) => {
         )}
       </div>
       <div className='back mt-4 flex h-96 w-72 flex-col items-center justify-center rounded-3xl border border-gray-300 bg-slate-400 bg-opacity-20 p-6 text-lg leading-relaxed shadow-md shadow-gray-700'>
+        <FiSunrise size='25px' />
         <div>Sunrise: {calculateSunrise()}</div>
+        <FiSunset size='25px' />
         <div>Sunset: {calculateSunset()}</div>
-
+        <BsCloudsFill size='25px' />
         <div>Clouds cover: {apiCtx.clouds.all}%</div>
+        <WiHumidity size='25px' />
         <div>Humidity: {apiCtx.main.humidity}%</div>
         <BsArrowLeftRight className='absolute top-3 left-5' />
       </div>
