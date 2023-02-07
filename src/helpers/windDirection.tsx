@@ -1,5 +1,5 @@
 const getDirection = (apiCtx: any) => {
-  let deg: number | string = Math.floor(apiCtx.wind.deg);
+  let deg: number | string = Math.floor(apiCtx.list[0].wind.deg);
   switch (true) {
     case deg >= 360 && deg <= 21:
       deg = 'N';

@@ -1,22 +1,25 @@
 import { useState, useEffect, useRef, useReducer } from 'react';
 import Checkbox from './components/Checkbox';
 import WeatherCard from './components/WeatherCard';
+import ApiContext from './store/api-context';
 import { useGeolocated } from 'react-geolocated';
-// import SearchForm from './components/SearchForm';
 import { getPlaceHandle } from './services/weatherService';
 import { getWeatherData } from './services/weatherService';
-import ApiContext from './store/api-context';
+import { getLocations } from './services/weatherService';
 import { checkboxReducer } from './reducers/checkbox-reducer';
 import { CheckboxContext } from './store/checkbox-context';
 import background from './assets/pictures/noaa-cthDc0hUM0o-unsplash.jpg';
 
 function App() {
-  const ref = useRef<HTMLInputElement>(null);
   const [weatherData, setWeatherData] = useState<any>([]);
-  const [lat, setLat] = useState<number>();
-  const [long, setLong] = useState<number>();
+  const [lat, setLat] = useState<number>(0);
+  const [long, setLong] = useState<number>(0);
   const [location, setLocation] = useState('London');
   const [loading, setLoading] = useState(true);
+
+  const ref = useRef<HTMLInputElement>(null);
+
+  // Getting geolocation to determine the user's current location
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
@@ -26,12 +29,16 @@ function App() {
       userDecisionTimeout: 5000,
     });
 
+  // setting Longitude and Latitude to state
+
   useEffect(() => {
     if (isGeolocationAvailable && isGeolocationEnabled && coords) {
       setLat(coords.latitude);
       setLong(coords.longitude);
     }
   }, [coords, lat, long, isGeolocationAvailable, isGeolocationEnabled]);
+
+  // getting location name(city) then setting 'location' state
 
   useEffect(() => {
     setLoading(true);
@@ -40,13 +47,14 @@ function App() {
         .then((response: any) => {
           setLocation(response.data[0].name);
           console.log(location);
-          console.log(loading);
         })
         .finally(() => {
           setLoading(false);
         });
     }
   }, [lat, long]);
+
+  // getting weather information at the location and getting multiple locations with the same name
 
   useEffect(() => {
     if (!loading) {
@@ -58,13 +66,23 @@ function App() {
         .finally(() => {
           setLoading(false);
         });
+      getLocations(location).then((response) => {
+        console.log(response);
+      });
     }
   }, [location]);
+
+  console.log(weatherData);
+  console.log(location);
+
+  // Getting location name from the form input
 
   const locationHandle = (e: React.FormEvent): void => {
     e.preventDefault();
     setLocation(ref.current!.value);
   };
+
+  // Multiple checkbox options
 
   const [state, dispatch] = useReducer(checkboxReducer, {
     checkboxes: [
@@ -92,7 +110,8 @@ function App() {
           >
             <div className='flex flex-col items-center justify-center rounded-3xl border bg-transparent p-6 text-gray-200 shadow-md shadow-gray-800 backdrop-blur-md'>
               <h1 className='text mb-4 items-center justify-center border-b-2 border-gray-200 pb-4 text-center text-4xl font-bold'>
-                My Weather App
+                My Weather App{' '}
+                <div className='text-2xl'>Location: {location}</div>
               </h1>
               <hr />
 
