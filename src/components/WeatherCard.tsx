@@ -15,8 +15,8 @@ import { WiHumidity } from 'react-icons/wi';
 
 // TODO add extra functionality for UV, sunset, sunrise, visibility, humidity, weather alert, air quality
 // TODO make 'Today' a variable and make 'Tomorrow' and dates following
-// TODO Redesign to add longer forecast (flip card for Today and the followind days grouped)
-// BUG fix checkboxes to not rerender too many components or completely eliminate checkboxes
+// TODO Redesign to DISPLAY longer forecast (flip card for Today and the following days grouped) MAP through the API data
+// BUG fix states to not rerender too many components
 
 const WeatherCard = (weatherData: any) => {
   const apiCtx = useContext(ApiContext);
