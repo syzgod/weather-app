@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useReducer } from 'react';
 import Checkbox from './components/Checkbox';
 import WeatherCard from './components/WeatherCard';
 import ApiContext from './store/api-context';
+import Select from 'react-select';
 import { useGeolocated } from 'react-geolocated';
 import { getPlaceHandle } from './services/weatherService';
 import { getWeatherData } from './services/weatherService';
@@ -18,6 +19,12 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const ref = useRef<HTMLInputElement>(null);
+
+  const options = [
+    { value: 'dorfen', label: 'Dorfen' },
+    { value: 'munich', label: 'Munich' },
+    { value: 'stuttgart', label: 'Stuttgart' },
+  ];
 
   // Getting geolocation to determine the user's current location
 
@@ -68,6 +75,7 @@ function App() {
         });
       getLocations(location).then((response) => {
         console.log(response);
+        setLocation(response.data[0].name);
       });
     }
   }, [location]);
@@ -126,6 +134,7 @@ function App() {
                       id=''
                       placeholder='Enter location name'
                     />
+                    <Select options={options}></Select>
                     <button
                       type='submit'
                       className='h-12 rounded-full border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center shadow-md shadow-gray-700 hover:bg-opacity-50'
