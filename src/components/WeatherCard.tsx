@@ -13,9 +13,9 @@ import { MdLocationPin } from 'react-icons/md';
 import { FiSunrise, FiSunset } from 'react-icons/fi';
 import { WiHumidity } from 'react-icons/wi';
 
-// TODO add extra functionality for UV, sunset, sunrise, visibility, humidity, weather alert, air quality
 // TODO make 'Today' a variable and make 'Tomorrow' and dates following
 // TODO Redesign to DISPLAY longer forecast (flip card for Today and the following days grouped) MAP through the API data
+// TODO design webapp to show current + forecast properly (hourly, days)
 // BUG fix states to not rerender too many components
 
 const WeatherCard = (weatherData: any) => {
@@ -119,7 +119,7 @@ const WeatherCard = (weatherData: any) => {
         {state.checkboxes.map((checkbox) =>
           checkbox.value === 'windGust' && checkbox.checked ? (
             <div key={checkbox.value}>
-              Gust: {apiCtx.list[0].wind.gust && 'no data'} km/h
+              Gust: {apiCtx.list[0].wind.gust || 'no data'} km/h
             </div>
           ) : null
         )}

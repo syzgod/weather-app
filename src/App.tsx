@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useReducer } from 'react';
 import Checkbox from './components/Checkbox';
 import WeatherCard from './components/WeatherCard';
 import ApiContext from './store/api-context';
-import Select from 'react-select';
 import { useGeolocated } from 'react-geolocated';
 import { getPlaceHandle } from './services/weatherService';
 import { getWeatherData } from './services/weatherService';
@@ -10,6 +9,7 @@ import { getLocations } from './services/weatherService';
 import { checkboxReducer } from './reducers/checkbox-reducer';
 import { CheckboxContext } from './store/checkbox-context';
 import background from './assets/pictures/noaa-cthDc0hUM0o-unsplash.jpg';
+import LocationForecastList from './components/LocationForecastList';
 
 function App() {
   const [weatherData, setWeatherData] = useState<any>([]);
@@ -19,12 +19,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const ref = useRef<HTMLInputElement>(null);
-
-  const options = [
-    { value: 'dorfen', label: 'Dorfen' },
-    { value: 'munich', label: 'Munich' },
-    { value: 'stuttgart', label: 'Stuttgart' },
-  ];
 
   // Getting geolocation to determine the user's current location
 
@@ -52,7 +46,7 @@ function App() {
     if (lat && long) {
       getPlaceHandle(lat, long)
         .then((response: any) => {
-          setLocation(response.data[0].name);
+          setLocation(response.data[0]?.name);
           console.log(location);
         })
         .finally(() => {
@@ -116,15 +110,14 @@ function App() {
             }}
             className='flex min-h-screen flex-col items-center justify-center'
           >
-            <div className='flex flex-col items-center justify-center rounded-3xl border bg-transparent p-6 text-gray-200 shadow-md shadow-gray-800 backdrop-blur-md'>
+            <div className='flex w-5/6 flex-col items-center justify-center rounded-3xl border bg-transparent p-6 text-gray-200 shadow-md shadow-gray-800 backdrop-blur-md'>
               <h1 className='text mb-4 items-center justify-center border-b-2 border-gray-200 pb-4 text-center text-4xl font-bold'>
-                My Weather App{' '}
-                <div className='text-2xl'>Location: {location}</div>
+                YourWeather <div className='text-2xl'>Location: {location}</div>
               </h1>
               <hr />
 
               <div className='flex flex-col items-center justify-center text-lg'>
-                <div>
+                <div className='flex'>
                   <form action='' onSubmit={locationHandle}>
                     <input
                       ref={ref}
@@ -134,7 +127,6 @@ function App() {
                       id=''
                       placeholder='Enter location name'
                     />
-                    <Select options={options}></Select>
                     <button
                       type='submit'
                       className='h-12 rounded-full border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center shadow-md shadow-gray-700 hover:bg-opacity-50'
@@ -145,11 +137,16 @@ function App() {
                 </div>
               </div>
 
-              <CheckboxContext.Provider value={[state, dispatch]}>
-                <Checkbox />
-                {loading && <div>Loading...</div>}
-                <WeatherCard />
-              </CheckboxContext.Provider>
+              <div className='flex w-full justify-evenly'>
+                <div className='flex flex-col items-center'>
+                  <CheckboxContext.Provider value={[state, dispatch]}>
+                    <Checkbox />
+                    {loading && <div>Loading...</div>}
+                    <WeatherCard />
+                  </CheckboxContext.Provider>
+                </div>
+                <LocationForecastList weatherData={weatherData} />
+              </div>
             </div>
           </div>
         </ApiContext.Provider>
