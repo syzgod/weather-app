@@ -8,24 +8,22 @@ const LocationForecastList = ({ weatherData }: any) => {
   console.log(weatherData);
   console.log(weatherData.list);
   return weatherData.list ? (
-    <div>
-      <ul className='flex h-fit w-fit flex-wrap items-center justify-start text-lg'>
-        {weatherData.list.map((forecast: any, index: number) => (
-          <li
-            key={index}
-            className='mr-8 p-2 odd:bg-slate-700 even:bg-slate-500'
+    <div className='grid h-fit grid-flow-col grid-rows-6 gap-2 '>
+      {weatherData.list.map((forecast: any, index: number) => (
+        <div
+          key={index}
+          className='grid-item p-2 odd:bg-slate-700 even:bg-slate-500'
+        >
+          <span className='font-bold'>{forecast.dt_txt}</span>:{' '}
+          <span
+            className={
+              forecast.main.temp >= 15 ? 'text-red-400' : 'text-blue-300'
+            }
           >
-            <span className='font-bold'>{forecast.dt_txt}</span>:{' '}
-            <span
-              className={
-                forecast.main.temp >= 15 ? 'text-red-400' : 'text-blue-300'
-              }
-            >
-              {forecast.main.temp}°C
-            </span>
-          </li>
-        ))}
-      </ul>
+            {forecast.main.temp}°C
+          </span>
+        </div>
+      ))}
     </div>
   ) : null;
 };

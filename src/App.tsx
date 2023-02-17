@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef, useReducer } from 'react';
-import Checkbox from './components/Checkbox';
 import WeatherCard from './components/WeatherCard';
 import ApiContext from './store/api-context';
 import { useGeolocated } from 'react-geolocated';
 import { getPlaceHandle } from './services/weatherService';
 import { getWeatherData } from './services/weatherService';
 import { getLocations } from './services/weatherService';
-import { checkboxReducer } from './reducers/checkbox-reducer';
-import { CheckboxContext } from './store/checkbox-context';
 import background from './assets/pictures/noaa-cthDc0hUM0o-unsplash.jpg';
 import LocationForecastList from './components/LocationForecastList';
+import { TbLocation } from 'react-icons/tb';
 
 function App() {
   const [weatherData, setWeatherData] = useState<any>([]);
@@ -84,16 +82,6 @@ function App() {
     setLocation(ref.current!.value);
   };
 
-  // Multiple checkbox options
-
-  const [state, dispatch] = useReducer(checkboxReducer, {
-    checkboxes: [
-      { label: 'Wind', value: 'wind', checked: false },
-      { label: 'Wind direction', value: 'windDirection', checked: false },
-      { label: 'Wind gust', value: 'windGust', checked: false },
-    ],
-  });
-
   return (
     <div>
       {!isGeolocationAvailable ? (
@@ -110,9 +98,10 @@ function App() {
             }}
             className='flex min-h-screen flex-col items-center justify-center'
           >
-            <div className='flex w-5/6 flex-col items-center justify-center rounded-3xl border bg-transparent p-6 text-gray-200 shadow-md shadow-gray-800 backdrop-blur-md'>
+            <div className='flex w-11/12 flex-col items-center justify-center rounded-3xl border bg-transparent p-6 text-gray-200 shadow-md shadow-gray-800 backdrop-blur-md'>
               <h1 className='text mb-4 items-center justify-center border-b-2 border-gray-200 pb-4 text-center text-4xl font-bold'>
-                YourWeather <div className='text-2xl'>Location: {location}</div>
+                Y🌞urWeather{' '}
+                <div className='text-2xl'>Location: {location}</div>
               </h1>
               <hr />
 
@@ -129,9 +118,17 @@ function App() {
                     />
                     <button
                       type='submit'
-                      className='h-12 rounded-full border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center shadow-md shadow-gray-700 hover:bg-opacity-50'
+                      className='mr-2 h-12 items-center rounded-full border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center shadow-md shadow-gray-700 hover:bg-opacity-50'
                     >
+                      <TbLocation className='mr-1 mb-1 inline' />
                       Get location
+                    </button>
+                    <button
+                      type='submit'
+                      className='h-12 items-center rounded-full border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center shadow-md shadow-gray-700 hover:bg-opacity-50'
+                    >
+                      <TbLocation className='mr-1 mb-1 inline' />
+                      My location
                     </button>
                   </form>
                 </div>
@@ -139,11 +136,8 @@ function App() {
 
               <div className='flex w-full justify-evenly'>
                 <div className='flex flex-col items-center'>
-                  <CheckboxContext.Provider value={[state, dispatch]}>
-                    <Checkbox />
-                    {loading && <div>Loading...</div>}
-                    <WeatherCard />
-                  </CheckboxContext.Provider>
+                  {loading && <div>Loading...</div>}
+                  <WeatherCard />
                 </div>
                 <LocationForecastList weatherData={weatherData} />
               </div>
