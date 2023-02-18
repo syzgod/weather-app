@@ -8,6 +8,7 @@ import { getLocations } from './services/weatherService';
 import background from './assets/pictures/noaa-cthDc0hUM0o-unsplash.jpg';
 import LocationForecastList from './components/LocationForecastList';
 import { TbLocation } from 'react-icons/tb';
+import { MdLocationPin } from 'react-icons/md';
 
 function App() {
   const [weatherData, setWeatherData] = useState<any>([]);
@@ -127,7 +128,7 @@ function App() {
                       type='submit'
                       className='h-12 items-center rounded-full border border-gray-300 bg-slate-400 bg-opacity-20 p-2 text-center shadow-md shadow-gray-700 hover:bg-opacity-50'
                     >
-                      <TbLocation className='mr-1 mb-1 inline' />
+                      <MdLocationPin size='25px' className='mr-1 mb-1 inline' />
                       My location
                     </button>
                   </form>

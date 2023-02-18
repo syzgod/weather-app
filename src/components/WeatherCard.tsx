@@ -7,7 +7,7 @@ import getDirection from '../helpers/windDirection';
 // Icons
 import { SiWindicss } from 'react-icons/si';
 import { FaLocationArrow } from 'react-icons/fa';
-import { BsArrowLeftRight, BsCloudsFill } from 'react-icons/bs';
+import { BsCloudsFill } from 'react-icons/bs';
 import { MdLocationPin } from 'react-icons/md';
 import { FiSunrise, FiSunset } from 'react-icons/fi';
 import { WiHumidity } from 'react-icons/wi';
@@ -15,6 +15,7 @@ import { WiHumidity } from 'react-icons/wi';
 // TODO make 'Today' a variable and make 'Tomorrow' and dates following
 // TODO Redesign to DISPLAY longer forecast (flip card for Today and the following days grouped) MAP through the API data
 // TODO design webapp to show current + forecast properly (hourly, days)
+// TODO do tooltips on icons
 // BUG fix states to not rerender too many components
 
 const WeatherCard = (weatherData: any) => {
@@ -37,12 +38,6 @@ const WeatherCard = (weatherData: any) => {
     return `${hour}:${minute}`;
   };
 
-  const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
   const today = `${new Date().toLocaleDateString(
     'de-DE'
   )} - ${new Date().toLocaleTimeString()}`;
@@ -67,29 +62,31 @@ const WeatherCard = (weatherData: any) => {
         </div>
       </h1>
       <div className='flex flex-row items-center justify-center'>
-        <p className=' '>
+        <p className='mr-9'>
           <span className='mt-3 block'>feels like </span>{' '}
           <span className='text-6xl font-bold drop-shadow-[5px_5px_3px_rgba(0,0,0,0.6)]'>
             {Math.trunc(apiCtx.list[0].main.feels_like)}°{' '}
           </span>
         </p>
-        <div className='flex'>
-          actual:{' '}
-          <div className='ml-2 font-bold'>
-            {' '}
-            {Math.trunc(apiCtx.list[0].main.temp)}°
+        <div className='flex flex-col items-center justify-center'>
+          <div className='flex'>
+            <span>actual: </span>
+            <div className='ml-2 font-bold'>
+              {' '}
+              {Math.trunc(apiCtx.list[0].main.temp)}°
+            </div>
           </div>
+          <p>
+            max{' '}
+            <span className='font-bold'>
+              {Math.trunc(apiCtx.list[0].main.temp_max)}° /{' '}
+            </span>
+            min{' '}
+            <span className='font-bold text-gray-200'>
+              {Math.trunc(apiCtx.list[0].main.temp_min)}°
+            </span>
+          </p>
         </div>
-        <p>
-          max{' '}
-          <span className='font-bold'>
-            {Math.trunc(apiCtx.list[0].main.temp_max)}° /{' '}
-          </span>
-          min{' '}
-          <span className='font-bold text-gray-200'>
-            {Math.trunc(apiCtx.list[0].main.temp_min)}°
-          </span>
-        </p>
       </div>
       <div className='flex items-center'>
         <img src={`${iconURL}${apiCtx.list[0].weather[0].icon}.png`} alt='' />
@@ -114,10 +111,12 @@ const WeatherCard = (weatherData: any) => {
 
       <div>Gust: {apiCtx.list[0].wind.gust || 'no data'} km/h</div>
 
-      <FiSunrise size='25px' />
-      <div>Sunrise: {calculateTime(apiCtx.city.sunrise)}</div>
-      <FiSunset size='25px' />
-      <div>Sunset: {calculateTime(apiCtx.city.sunset)}</div>
+      <div className='m-4 flex'>
+        <FiSunrise size='25px' />
+        <div className='mx-3'>{calculateTime(apiCtx.city.sunrise)}</div>
+        <FiSunset size='25px' />
+        <div className='mx-3'>{calculateTime(apiCtx.city.sunset)}</div>
+      </div>
       <BsCloudsFill size='25px' />
       <div>Clouds cover: {apiCtx.list[0].clouds.all}%</div>
       <WiHumidity size='25px' />
