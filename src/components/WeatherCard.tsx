@@ -13,9 +13,10 @@ import { FiSunrise, FiSunset } from 'react-icons/fi';
 import { WiHumidity } from 'react-icons/wi';
 
 // TODO make 'Today' a variable and make 'Tomorrow' and dates following
-// TODO Redesign to DISPLAY longer forecast (flip card for Today and the following days grouped) MAP through the API data
+// TODO Redesign to DISPLAY longer forecast MAP through the API data / make them show as columns and scrollable to the side
 // TODO design webapp to show current + forecast properly (hourly, days)
-// TODO do tooltips on icons
+// TODO add getGeolocation to the 'My location' button
+// TODO edge cases: when 'location' search is empty alert or getGeolocation
 // BUG fix states to not rerender too many components
 
 const WeatherCard = (weatherData: any) => {
@@ -117,10 +118,16 @@ const WeatherCard = (weatherData: any) => {
         <FiSunset size='25px' />
         <div className='mx-3'>{calculateTime(apiCtx.city.sunset)}</div>
       </div>
-      <BsCloudsFill size='25px' />
-      <div>Clouds cover: {apiCtx.list[0].clouds.all}%</div>
-      <WiHumidity size='25px' />
-      <div>Humidity: {apiCtx.list[0].main.humidity}%</div>
+
+      <div>
+        <BsCloudsFill size='25px' className='mr-2 inline' />
+        Clouds cover: {apiCtx.list[0].clouds.all}%
+      </div>
+
+      <div>
+        <WiHumidity size='25px' className='mr-1 inline' />
+        Humidity: {apiCtx.list[0].main.humidity}%
+      </div>
     </div>
   ) : null;
 };
