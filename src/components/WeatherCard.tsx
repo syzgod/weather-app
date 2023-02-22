@@ -41,7 +41,7 @@ const WeatherCard = (weatherData: any) => {
 
   const today = `${new Date().toLocaleDateString(
     'de-DE'
-  )} - ${new Date().toLocaleTimeString()}`;
+  )} - ${new Date().toLocaleTimeString(undefined, { hour12: false })}`;
   // let day = date.getDate();
   // let month = date.getMonth() + 1;
   // let year = date.getFullYear();
@@ -51,17 +51,13 @@ const WeatherCard = (weatherData: any) => {
 
   return apiCtx.list?.length ? (
     <div className='min-h-96 mt-4 mr-7 flex w-96 flex-col items-center justify-center rounded-3xl border border-gray-300 bg-slate-400 bg-opacity-40 p-2 text-lg leading-relaxed shadow-md shadow-gray-700'>
-      <span className='text-md'>{today}</span>
-      <h1 className='flex flex-wrap items-center justify-center text-3xl font-bold'>
-        <MdLocationPin size='25px' className='inline' />
-        {apiCtx.city.name}, {apiCtx.city.country}{' '}
-        <div className='ml-2 inline text-sm font-normal'>
-          at{' '}
-          <span className='text-2xl font-bold tracking-widest'>
-            {calculateTime(apiCtx.list[0].dt)}
-          </span>
-        </div>
-      </h1>
+      <div className='flex w-full flex-wrap items-center justify-center rounded-2xl border bg-gray-700 bg-opacity-60 p-4'>
+        <span className='text-md'>{today}</span>
+        <h1 className='flex flex-wrap items-center justify-center text-3xl font-bold'>
+          <MdLocationPin size='25px' className='inline' />
+          {apiCtx.city.name}, {apiCtx.city.country}{' '}
+        </h1>
+      </div>
       <div className='flex flex-row items-center justify-center'>
         <p className='mr-9'>
           <span className='mt-3 block'>feels like </span>{' '}

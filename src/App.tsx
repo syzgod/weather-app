@@ -135,11 +135,9 @@ function App() {
                 </div>
               </div>
 
-              <div className='flex w-full justify-evenly'>
-                <div className='flex flex-col items-center'>
-                  {loading && <div>Loading...</div>}
-                  <WeatherCard />
-                </div>
+              <div className='flex w-full items-end'>
+                {loading && <div>Loading...</div>}
+                <WeatherCard />
                 <LocationForecastList weatherData={weatherData} />
               </div>
             </div>
