@@ -99,7 +99,7 @@ function App() {
             }}
             className='flex min-h-screen flex-col items-center justify-center'
           >
-            <div className='flex w-11/12 flex-col items-center justify-center rounded-3xl border bg-transparent p-6 text-gray-200 shadow-md shadow-gray-800 backdrop-blur-md'>
+            <div className='flex w-2/3 flex-col items-center justify-center rounded-3xl border bg-transparent p-6 text-gray-200 shadow-md shadow-gray-800 backdrop-blur-md'>
               <h1 className='text mb-4 items-center justify-center border-b-2 border-gray-200 pb-4 text-center text-4xl font-bold'>
                 Y🌞urWeather{' '}
                 <div className='text-2xl'>Location: {location}</div>
